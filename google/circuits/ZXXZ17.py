@@ -11,38 +11,29 @@ pattern4 = [[Q3,Q8],[Q5,Q10],[Q13,Q15],[Q7,Q12],[Q9,Q14],[Q0,Q2]]
 
 CZidle = lambda pattern:[i for i in Q_ALL if i not in [j for k in pattern for j in k]]
 
-#cross talk的pattern未写完
-crosstalk = lambda pattern,pCT:f'''
-GCT G{''.join([i[1:] for j in random.choice(6,2,replace=False) for i in pattern[j]])}
-''' if random.random() < pCT else ''
-
 EC = lambda tH,tCZ,pCT:f'''
 {B_ALL}
 {Y2M(Q_Anci)}
 {I(tH,Q_Data)}
 {B_ALL}
 {CZ(pattern1)}
-{crosstalk(pattern1,pCT)}
 {I(tCZ,CZidle(pattern1))}
 {B_ALL}
 {Y2M(Q_Data)}
 {I(tH,Q_Anci)}
 {B_ALL}
 {CZ(pattern2)}
-{crosstalk(pattern2,pCT)}
 {I(tCZ,CZidle(pattern2))}
 {B_ALL}
 {I(tH,Q_ALL)}
 {B_ALL}
 {CZ(pattern3)}
-{crosstalk(pattern3,pCT)}
 {I(tCZ,CZidle(pattern3))}
 {B_ALL}
 {Y2P(Q_Data)}
 {I(tH,Q_Anci)}
 {B_ALL}
 {CZ(pattern4)}
-{crosstalk(pattern4,pCT)}
 {I(tCZ,CZidle(pattern4))}
 {B_ALL}
 {Y2P(Q_Anci)}
