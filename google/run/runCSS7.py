@@ -51,11 +51,11 @@ def runCirc(ncycle:int,shots:int):
 
 if __name__ == '__main__':
     # runCirc(8,0)
-    shots = 40000
+    shots = 10000
     pools = multiprocessing.Pool()
     for ncycle in range(10,11):
         result = pools.map(partial(runCirc,ncycle),range(shots))
-        np.savetxt(f'google/result/resultCSS7/qubit_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
+        np.savetxt(f'google/result/resultCSS7/qubit_initX_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
 
