@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(''))
 import plotly.graph_objects as go
 import numpy as np
 
-title = 'qubit_initX_ncycle11shots10000tH400pM0.03pCZ0.02pxyz0.01'
+title = 'qubit_initZ_ncycle11shots10000tH400pM0.03pCZ0.02pxyz0.01'
 path = f'google/result/resultCSS7/{title}.txt'
 CycleNum = 11
 ExperimentNum = 10000
@@ -47,11 +47,11 @@ for cycle_num in range(CycleNum):
         d4_def[cycle_num] += data_def[ii][cycle_num]
     d4_def[cycle_num] /= len(d_4_qubit)
 
-fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=data_def[0],mode='lines+markers',name=f'qubit{0}_std{round(DEF_std,4)}'))
-fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=data_def[3],mode='lines+markers',name=f'qubit{3}_std{round(DEF_std,4)}'))
-fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=data_def[6],mode='lines+markers',name=f'qubit{6}_std{round(DEF_std,4)}'))
-fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=d2_def,mode='lines+markers',name=f'd2_qubit'))
-fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=d4_def,mode='lines+markers',name=f'd4_qubit'))
+fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=data_def[0],mode='lines+markers',name=f'qubit{0}_std{round(DEF_std,4)}'))
+fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=data_def[3],mode='lines+markers',name=f'qubit{3}_std{round(DEF_std,4)}'))
+fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=data_def[6],mode='lines+markers',name=f'qubit{6}_std{round(DEF_std,4)}'))
+fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=d2_def,mode='lines+markers',name=f'd2_qubit'))
+fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=d4_def,mode='lines+markers',name=f'd4_qubit'))
 
 fig.update_layout(xaxis=dict(tickmode='linear',dtick=1),xaxis_title='cycle',yaxis_title='DEF',title=title)
 fig.show()
