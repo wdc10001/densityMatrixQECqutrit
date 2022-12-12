@@ -1,5 +1,7 @@
-from physicGate import *
-from config import *
+import sys,os
+sys.path.append(os.path.abspath(''))
+from google.src.physicGate import *
+from google.src.config import *
 
 EC = lambda tH,tCZ:f'''
 {Y2M([Q16])}
