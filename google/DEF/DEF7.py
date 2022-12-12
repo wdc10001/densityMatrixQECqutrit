@@ -29,8 +29,8 @@ fig = go.Figure()
 for ii in meas_qubit:
     for cycle_num in range(CycleNum-1):
         data_def[ii][cycle_num] = sum([int(data_raw[expi][ii][cycle_num] != data_raw[expi][ii][cycle_num+1]) for expi in range(ExperimentNum)])/ExperimentNum
-    # data_def[ii][0] =  sum([int(data_raw[expi][ii][0] != 0) for expi in range(ExperimentNum)])/ExperimentNum
-    DEF_std = np.std(data_def[ii][:-1],ddof=1)
+    data_def[ii][0] =  sum([int(data_raw[expi][ii][0] != 0) for expi in range(ExperimentNum)])/ExperimentNum
+    DEF_std = np.std(data_def[ii][1:-1],ddof=1)
     fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=data_def[ii][:-1],mode='lines+markers',name=f'qubit{ii}_std{round(DEF_std,4)}'))
 
 data_def[0].append(sum([int(data_raw[expi][1][0]) ^ int(data_raw[expi][2][0]) for expi in range(ExperimentNum)])/ExperimentNum)
