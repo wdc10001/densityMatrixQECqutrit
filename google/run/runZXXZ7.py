@@ -18,13 +18,6 @@ MZ = f'''
 init_Z = f'''
 {Y2P([Q2,Q4])}
 '''
-def init_random()->str:
-    randomQubits = random.choice(Q_Data,random.choice(range(5),1),replace=False)
-    return f'''
-    {X2P(randomQubits)}
-    {X2P(randomQubits)}
-    '''
-
 M_ALL = ''.join([f'MEASURE {QR_Dict[i]} {i}\n' for i in Q_ALL])
 
 nD = 0
