@@ -1,6 +1,6 @@
 import sys,os
 sys.path.append(os.path.abspath(''))
-from google.src.physicGate import *
+from google.src.physic_gate import *
 from numpy import random
 
 # Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16 = 'Q26', 'Q32', 'Q33', 'Q34', 'Q38', 'Q39', 'Q40', 'Q44', 'Q45', 'Q46', 'Q49', 'Q50', 'Q51', 'Q56','Q57', 'Q58', 'Q63'

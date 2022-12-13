@@ -1,7 +1,7 @@
 import re
 import cirq
-import google.src.NoiseChannel as NC
-import google.src.QutritGate as QG
+import google.src.noise_channel as NC
+import google.src.qutrit_gate as QG
 import numpy as np
 
 class qcisToCirq():

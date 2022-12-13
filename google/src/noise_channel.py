@@ -1,7 +1,7 @@
 import cirq
 import numpy as np
 from numpy import random
-from google.src.QutritGate import *
+from google.src.qutrit_gate import *
 from scipy.linalg import sqrtm
 
 class IdentityChannel(cirq.Gate):
@@ -246,7 +246,7 @@ if __name__ == '__main__':
     # for prob, kraus in cirq.mixture(customChannel):
     #     print(f"With probability {prob}, apply\n", kraus, end="\n\n")
 
-    import QutritGate as QG
+    import qutrit_gate as QG
     q0, q1 = cirq.LineQid(0, dimension=3),cirq.LineQid(1, dimension=3)
     # q0, q1 = cirq.LineQid.range(2, dimension=3)
     circuit = cirq.Circuit([
@@ -260,7 +260,7 @@ if __name__ == '__main__':
         cirq.measure([q0, q1]),
         # QG.Reset012().on(q0)
     ])
-    import qsimcirq
+    # import qsimcirq
     for _ in range(1):
         sim = cirq.DensityMatrixSimulator()
         result = sim.simulate(circuit)
