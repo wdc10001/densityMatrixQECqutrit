@@ -4,11 +4,11 @@ import google.src.noise_channel as NC
 import google.src.qutrit_gate as QG
 import numpy as np
 
-class qcisToCirq():
+class QcisToCirq():
     def __init__(self,qcis:str,qData:list,pDict:dict,tDict:dict,fHL:list,ten:bool,eleven:bool,circ:list) -> None:
         self.qcis,self.qData,self.pDict,self.tDict,self.fHL,self.circ,self.ten,self.eleven = qcis,qData,pDict,tDict,fHL,circ,ten,eleven
 
-    def matchSQ(self,line_:re.Match,gate:cirq.Gate):
+    def match_sqg(self,line_:re.Match,gate:cirq.Gate):
         nStr = line_.group(2)[1:]
         Qn = 'Q'+nStr
         if self.ten and Qn not in self.qData: nStr = '00'
@@ -39,13 +39,13 @@ class qcisToCirq():
                     self.circ.append(NC.LeakThermalChannel(pTh12,qutrit))
                     self.circ.append(NC.DecayAndDephaseChannel(decay10,dephase10,decay21,dephase21).on(qutrit))
                 if line_.group(1) == 'X2P':
-                    self.matchSQ(line_,QG.X2p())
+                    self.match_sqg(line_,QG.X2p())
                 if line_.group(1) == 'X2M':
-                    self.matchSQ(line_,QG.X2m())
+                    self.match_sqg(line_,QG.X2m())
                 if line_.group(1) == 'Y2P':
-                    self.matchSQ(line_,QG.Y2p())
+                    self.match_sqg(line_,QG.Y2p())
                 if line_.group(1) == 'Y2M':
-                    self.matchSQ(line_,QG.Y2m())
+                    self.match_sqg(line_,QG.Y2m())
                 if line_.group(1) == 'MEASURE':
                     nStr = line_.group(3)[1:]
                     Qn = 'Q'+nStr
