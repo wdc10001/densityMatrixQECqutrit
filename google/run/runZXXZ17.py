@@ -29,7 +29,7 @@ def runCirc(ncycle:int,shots:int)->list:
     mDict = {i:result.measurements[i][0] for i in result.measurements}
     mList = [mDict[key] for i in Q_ALL for key in mDict if key[:3] == i]
     # print(time.time()-start)
-    if shots%1000 == 0: print('ncycle',ncycle,'shots',shots,'time',time.time()-start)
+    if (shots+1)%1000 == 0: print('ncycle',ncycle,'shots',shots,'time',time.time()-start)
     return mList
 
 if __name__ == '__main__':
