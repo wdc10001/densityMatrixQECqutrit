@@ -1,13 +1,13 @@
 import sys,os
 sys.path.append(os.path.abspath(''))
 import cirq,time
-from google.src.qcisToCirq import qcisToCirq
+from google.src.qcis_to_cirq import QcisToCirq
 from google.circuits.ZXXZ7 import EC,ECM
 from google.src.config import *
 import multiprocessing
 from functools import partial
 import numpy as np
-from google.src.qubitPara import *
+from google.src.qubit_para import *
 from numpy import random
 
 Q_ALL = [Q0,Q1,Q2,Q3,Q4,Q8,Q9]
@@ -32,7 +32,7 @@ start = time.time()
 def runCirc(ncycle:int,shots:int)->list:
     # start = time.time()
     qcis = f'{init_Z}'+ncycle*f'{ECM(nD,tH,tCZ,tM,tR,pCT)}'+f'{EC(tH,tCZ,pCT)}{M_Dire}{M_ALL}'
-    circuitList = qcisToCirq(qcis,qData,pDict,tDict,fHL,ten=False,eleven=False,circ=[]).matchline()
+    circuitList = QcisToCirq(qcis,qData,pDict,tDict,fHL,ten=False,eleven=False,circ=[]).matchline()
     circuit = cirq.Circuit(circuitList)
     sim = cirq.Simulator()
     result = sim.simulate(circuit)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     pools = multiprocessing.Pool()
     for ncycle in range(10,11):
         result = pools.map(partial(runCirc,ncycle),range(shots))
-        np.savetxt(f'google/result/resultZXXZ7/qubit_initX_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
+        np.savetxt(f'google/result/resultZXXZ7/qubit_initZ_ncycle{ncycle+1}shots{shots}tH400pM0.01pCZ0.01pxyz0.01pLeak0.1.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
 

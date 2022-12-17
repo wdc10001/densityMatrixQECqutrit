@@ -1,6 +1,6 @@
 import sys,os
 sys.path.append(os.path.abspath(''))
-from google.src.physicGate import *
+from google.src.physic_gate import *
 from google.src.config import *
 from numpy import random
 
