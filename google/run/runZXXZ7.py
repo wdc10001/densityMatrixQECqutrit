@@ -39,7 +39,7 @@ def runCirc(ncycle:int,shots:int)->list:
     mDict = {i:result.measurements[i][0] for i in result.measurements}
     mList = [mDict[key] for i in Q_ALL for key in mDict if key[:3] == i]
     # print(time.time()-start)
-    if shots%1000 == 0: print('ncycle',ncycle,'shots',shots,'time',time.time()-start)
+    if shots%100 == 0: print('ncycle',ncycle,'shots',shots,'time',time.time()-start)
     return mList
 
 if __name__ == '__main__':
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     pools = multiprocessing.Pool()
     for ncycle in range(10,11):
         result = pools.map(partial(runCirc,ncycle),range(shots))
-        np.savetxt(f'google/result/resultZXXZ7/qubit_initZ_ncycle{ncycle+1}shots{shots}tH400pM0.01pCZ0.01pxyz0.01pLeak0.1.txt',result,fmt='%d',delimiter='')
+        np.savetxt(f'google/result/resultZXXZ7/qubit_initZ_ncycle{ncycle+1}shots{shots}tH400pM0.01pCZ0.01pxyz0.01.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
 
