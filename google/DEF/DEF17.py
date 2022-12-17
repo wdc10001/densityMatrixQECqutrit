@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import numpy as np
 
 title = 'qubit_initZ_ncycle8shots10000tH400pM0.03pCZ0.02pxyz0.01'
-path = f'google/result/resultZXXZ10/{title}.txt'
+path = f'google/result/resultZXXZ17/{title}.txt'
 CycleNum = 8
 ExperimentNum = 10000
 
@@ -30,7 +30,7 @@ for ii in meas_qubit:
     for cycle_num in range(1,CycleNum):
         data_def[ii][cycle_num] = sum([int(data_raw[expi][ii][cycle_num] != data_raw[expi][ii][cycle_num-1]) for expi in range(ExperimentNum)])/ExperimentNum
     data_def[ii][0] =  sum([int(data_raw[expi][ii][0] != 0) for expi in range(ExperimentNum)])/ExperimentNum
-    DEF_std = np.std(data_def[ii][2:-1],ddof=1)
+    DEF_std = np.std(data_def[ii][1:-1],ddof=1)
     fig.add_trace(go.Scatter(x=list(range(CycleNum)),y=data_def[ii],mode='lines+markers',name=f'qubit{ii}_std{round(DEF_std,4)}'))
 
 # data_def[0].append(sum([(int(data_raw[expi][1][0]) ^ int(data_raw[expi][2][0])) != data_raw[expi][0][CycleNum-1] for expi in range(ExperimentNum)])/ExperimentNum)
