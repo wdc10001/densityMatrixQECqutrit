@@ -24,13 +24,13 @@ with open(path,'r') as f:
             data_num = CycleNum if ii in meas_qubit else 1
             data_raw[expi][ii] = [int(data_line[e]) if int(data_line[e])<2 else 1 for e in range(shift,shift+data_num)]
             shift += data_num
-
+DEF_std={}
 fig = go.Figure()
 for ii in meas_qubit:
     for cycle_num in range(1,CycleNum):
         data_def[ii][cycle_num] = sum([int(data_raw[expi][ii][cycle_num] != data_raw[expi][ii][cycle_num-1]) for expi in range(ExperimentNum)])/ExperimentNum
     data_def[ii][0] =  sum([int(data_raw[expi][ii][0] != 0) for expi in range(ExperimentNum)])/ExperimentNum
-    DEF_std = np.std(data_def[ii][1:-1],ddof=1)
+    DEF_std.update({ii:np.std(data_def[ii][1:],ddof=1)})
 
 data_def[0].append(sum([(int(data_raw[expi][1][0]) ^ int(data_raw[expi][2][0])) != data_raw[expi][0][CycleNum-1] for expi in range(ExperimentNum)])/ExperimentNum)
 data_def[3].append(sum([(int(data_raw[expi][1][0]) ^ int(data_raw[expi][2][0]) ^ int(data_raw[expi][4][0]) ^ int(data_raw[expi][8][0])) != data_raw[expi][3][CycleNum-1] for expi in range(ExperimentNum)])/ExperimentNum)
@@ -42,7 +42,7 @@ data_def[13].append(sum([(int(data_raw[expi][8][0]) ^ int(data_raw[expi][12][0])
 data_def[16].append(sum([(int(data_raw[expi][14][0]) ^ int(data_raw[expi][15][0])) != data_raw[expi][16][CycleNum-1] for expi in range(ExperimentNum)])/ExperimentNum)
 
 for ii in meas_qubit:
-    fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=data_def[ii],mode='lines+markers',name=f'qubit{ii}_std{round(DEF_std,4)}'))
+    fig.add_trace(go.Scatter(x=list(range(CycleNum+1)),y=data_def[ii],mode='lines+markers',name=f'qubit{ii}_std{round(DEF_std[ii],4)}'))
 
 # d2_def = [0 for cycle_num in range(CycleNum+1)]
 # for cycle_num in range(CycleNum+1):
