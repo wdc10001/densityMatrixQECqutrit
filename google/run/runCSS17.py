@@ -42,7 +42,7 @@ if __name__ == '__main__':
     pools = multiprocessing.Pool()
     for ncycle in range(7,8):
         result = pools.map(partial(runCirc,ncycle),range(shots))
-        np.savetxt(os.path.abspath('')+'/google/result/resultCSS17/qubit_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
+        np.savetxt(f'/google/result/resultCSS17/qubit_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
 
