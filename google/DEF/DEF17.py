@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import numpy as np
 
 title = 'qubit_initZ_ncycle8shots10000tH400pM0.03pCZ0.02pxyz0.01'
-path = f'google/result/resultZXXZ17/{title}.txt'
+path = f'google/result/resultCSS17/{title}.txt'
 CycleNum = 8
 ExperimentNum = 10000
 
