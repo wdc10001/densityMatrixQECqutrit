@@ -3,7 +3,6 @@ sys.path.append(os.path.abspath(''))
 from google.src.physic_gate import *
 from numpy import random
 
-# Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16 = 'Q26', 'Q32', 'Q33', 'Q34', 'Q38', 'Q39', 'Q40', 'Q44', 'Q45', 'Q46', 'Q49', 'Q50', 'Q51', 'Q56','Q57', 'Q58', 'Q63'
 Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16 = 'Q00','Q01','Q02','Q03','Q04','Q05','Q06','Q07','Q08','Q09','Q10','Q11','Q12','Q13','Q14','Q15','Q16'
 RQ0,RQ1,RQ2,RQ3,RQ4,RQ5,RQ6,RQ7,RQ8,RQ9,RQ10,RQ11,RQ12,RQ13,RQ14,RQ15,RQ16 = 'R05','R06','R06','R06','R07','R07','R07','R08','R08','R08','R09','R09','R09','R10','R10','R10','R11'
 Q_ALL = [Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16]
