@@ -18,7 +18,7 @@ pDict = {'px':px,'py':py,'pz':pz,'pM':pM,'pReset01':pReset01,'pReset02':pReset02
 tDict = {'T1_10':T1_10,'T1_21':T1_21,'Tp_10':Tp_10,'Tp_21':Tp_21,'Th12':Th12,'tH':tH,'tCZ':tCZ}
 
 start = time.time()
-def runCirc(ncycle:int,shots:int):
+def run_circ(ncycle:int,shots:int):
     # start = time.time()
     qcis = f'{init0}'+ncycle*f'{ECDD(nD,tH,tCZ,tM,tR)}'+f'{EC(tH,tCZ)}{M_Dire}{M_Data}'
     circuitList = QcisToCirq(qcis,qData,pDict,tDict,fHL,ten=True,eleven=False,circ=[]).qcis_to_cirq()
@@ -32,11 +32,11 @@ def runCirc(ncycle:int,shots:int):
     return mList
 
 if __name__ == '__main__':
-    # runCirc(8,0)
+    # run_circ(8,0)
     shots = 10000
     pools = multiprocessing.Pool()
     for ncycle in range(7,8):
-        result = pools.map(partial(runCirc,ncycle),range(shots))
+        result = pools.map(partial(run_circ,ncycle),range(shots))
         np.savetxt(os.path.abspath('')+f'/google/result/result10/qubit_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
