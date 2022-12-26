@@ -154,12 +154,23 @@ class DecayAndDephaseChannel(cirq.Gate):
     def _circuit_diagram_info_(self, args) -> str:
         return "De"
 
-def LeakThermalChannel(pTh12:float,qutrit:cirq.Qid)->cirq.Gate:
-    errorRate = random.random()
-    if errorRate < pTh12:
-        return X12().on(qutrit)
-    else:
-        return IdentityChannel(1).on(qutrit)
+class LeakThermalChannel():
+    def __init__(self,pTh12:float) -> None:
+        self.pTh12 = pTh12
+
+    def on(self,qutrit:cirq.Qid) -> cirq.Gate:
+        errorRate = random.random()
+        if errorRate < self.pTh12:
+            return X12().on(qutrit)
+        else:
+            return IdentityChannel(1).on(qutrit)
+
+# def LeakThermalChannel(pTh12:float,qutrit:cirq.Qid)->cirq.Gate:
+#     errorRate = random.random()
+#     if errorRate < pTh12:
+#         return X12().on(qutrit)
+#     else:
+#         return IdentityChannel(1).on(qutrit)
 
 class LeakCzChannel(cirq.Gate):
     def _num_qubits_(self) -> int:
@@ -211,41 +222,93 @@ class LeakCzChannel(cirq.Gate):
     def _circuit_diagram_info_(self, args) -> str:
         return (f"LC",f"LC")
 
-def SingleQutritNoiseChannel(px:float,py:float,pz:float,qutrit:cirq.Qid)->cirq.Gate:
-    errorRate = random.random()
-    if errorRate < px:
-        return BitFlipChannel(1).on(qutrit)
-    elif errorRate < px+py:
-        return BitAndPhaseFlipChannel(1).on(qutrit)
-    elif errorRate < px+py+pz:
-        return PhaseFlipChannel(1).on(qutrit)
-    else:
-        return IdentityChannel(1).on(qutrit)
+class SingleQutritNoiseChannel():
+    def __init__(self,px:float,py:float,pz:float) -> None:
+        self.px = px
+        self.py = py
+        self.pz = pz
 
-def DoubleQutritNoiseChannel(pLeak:float,pCZ:float,qutritH:cirq.Qid,qutritL:cirq.Qid)->list:
-    errorRate = random.random()
-    channelList1 = [IdentityChannel(1).on(qutritH),BitFlipChannel(1).on(qutritH),BitAndPhaseFlipChannel(1).on(qutritH),PhaseFlipChannel(1).on(qutritH)]
-    channelList2 = [IdentityChannel(1).on(qutritL),BitFlipChannel(1).on(qutritL),BitAndPhaseFlipChannel(1).on(qutritL),PhaseFlipChannel(1).on(qutritL)]
-    if errorRate < pLeak:
-        return LeakCzChannel(1).on(qutritH,qutritL)
-    errorRate = random.random()
-    if errorRate < pCZ:
-        channelList = [random.choice(channelList1,1),random.choice(channelList2,1)]
-        if channelList1[0] in channelList and channelList2[0] in channelList:
-            return DoubleQutritNoiseChannel(0,1,qutritH,qutritL)
+    def on(self,qutrit:cirq.Qid) -> cirq.Gate:
+        errorRate = random.random()
+        if errorRate < self.px:
+            return BitFlipChannel(1).on(qutrit)
+        elif errorRate < self.px+self.py:
+            return BitAndPhaseFlipChannel(1).on(qutrit)
+        elif errorRate < self.px+self.py+self.pz:
+            return PhaseFlipChannel(1).on(qutrit)
         else:
-            return channelList
-    else:
-        return [channelList1[0],channelList2[0]]
+            return IdentityChannel(1).on(qutrit)
 
-def Reset012Error(pReset01:float,pReset02:float,qutrit:cirq.Qid)->cirq.Gate:
-    errorRate = random.random()
-    if errorRate < pReset01:
-        return BitFlipChannel(1).on(qutrit)
-    elif errorRate < pReset01+pReset02:
-        return X02().on(qutrit)
-    else:
-        return IdentityChannel(1).on(qutrit)
+# def SingleQutritNoiseChannel(px:float,py:float,pz:float,qutrit:cirq.Qid)->cirq.Gate:
+#     errorRate = random.random()
+#     if errorRate < px:
+#         return BitFlipChannel(1).on(qutrit)
+#     elif errorRate < px+py:
+#         return BitAndPhaseFlipChannel(1).on(qutrit)
+#     elif errorRate < px+py+pz:
+#         return PhaseFlipChannel(1).on(qutrit)
+#     else:
+#         return IdentityChannel(1).on(qutrit)
+
+class DoubleQutritNoiseChannel():
+    def __init__(self,pLeak:float,pCZ:float) -> None:
+        self.pLeak = pLeak
+        self.pCZ = pCZ
+
+    def on(self,qutritH:cirq.Qid,qutritL:cirq.Qid) -> cirq.Gate:
+        errorRate = random.random()
+        channelList1 = [IdentityChannel(1).on(qutritH),BitFlipChannel(1).on(qutritH),BitAndPhaseFlipChannel(1).on(qutritH),PhaseFlipChannel(1).on(qutritH)]
+        channelList2 = [IdentityChannel(1).on(qutritL),BitFlipChannel(1).on(qutritL),BitAndPhaseFlipChannel(1).on(qutritL),PhaseFlipChannel(1).on(qutritL)]
+        if errorRate < self.pLeak:
+            return LeakCzChannel(1).on(qutritH,qutritL)
+        errorRate = random.random()
+        if errorRate < self.pCZ:
+            channelList = [random.choice(channelList1,1),random.choice(channelList2,1)]
+            if channelList1[0] in channelList and channelList2[0] in channelList:
+                return DoubleQutritNoiseChannel(0,1).on(qutritH,qutritL)
+            else:
+                return channelList
+        else:
+            return [channelList1[0],channelList2[0]]
+
+# def DoubleQutritNoiseChannel(pLeak:float,pCZ:float,qutritH:cirq.Qid,qutritL:cirq.Qid)->list:
+#     errorRate = random.random()
+#     channelList1 = [IdentityChannel(1).on(qutritH),BitFlipChannel(1).on(qutritH),BitAndPhaseFlipChannel(1).on(qutritH),PhaseFlipChannel(1).on(qutritH)]
+#     channelList2 = [IdentityChannel(1).on(qutritL),BitFlipChannel(1).on(qutritL),BitAndPhaseFlipChannel(1).on(qutritL),PhaseFlipChannel(1).on(qutritL)]
+#     if errorRate < pLeak:
+#         return LeakCzChannel(1).on(qutritH,qutritL)
+#     errorRate = random.random()
+#     if errorRate < pCZ:
+#         channelList = [random.choice(channelList1,1),random.choice(channelList2,1)]
+#         if channelList1[0] in channelList and channelList2[0] in channelList:
+#             return DoubleQutritNoiseChannel(0,1,qutritH,qutritL)
+#         else:
+#             return channelList
+#     else:
+#         return [channelList1[0],channelList2[0]]
+
+class Reset012Error():
+    def __init__(self,pReset01:float,pReset02:float) -> None:
+        self.pReset01 = pReset01
+        self.pReset02 = pReset02
+
+    def on(self,qutrit:cirq.Qid) -> cirq.Gate:
+        errorRate = random.random()
+        if errorRate < self.pReset01:
+            return BitFlipChannel(1).on(qutrit)
+        elif errorRate < self.pReset01+self.pReset02:
+            return X02().on(qutrit)
+        else:
+            return IdentityChannel(1).on(qutrit)
+
+# def Reset012Error(pReset01:float,pReset02:float,qutrit:cirq.Qid)->cirq.Gate:
+#     errorRate = random.random()
+#     if errorRate < pReset01:
+#         return BitFlipChannel(1).on(qutrit)
+#     elif errorRate < pReset01+pReset02:
+#         return X02().on(qutrit)
+#     else:
+#         return IdentityChannel(1).on(qutrit)
 
 if __name__ == '__main__':
     # customChannel = LeakDecayAndDephaseChannel(0.1,0.2)

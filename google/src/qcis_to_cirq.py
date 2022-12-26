@@ -16,8 +16,8 @@ class QcisToCirq():
         qutrit = cirq.LineQid(int(nStr),dimension=3)
         self.circ.append(gate.on(qutrit))
         pTh12 = self.tDict['tH']/self.tDict['Th12']
-        self.circ.append(NC.LeakThermalChannel(pTh12,qutrit))
-        self.circ.append(NC.SingleQutritNoiseChannel(self.pDict['px'][Qn],self.pDict['py'][Qn],self.pDict['pz'][Qn],qutrit))
+        self.circ.append(NC.LeakThermalChannel(pTh12).on(qutrit))
+        self.circ.append(NC.SingleQutritNoiseChannel(self.pDict['px'][Qn],self.pDict['py'][Qn],self.pDict['pz'][Qn]).on(qutrit))
 
     def qcis_to_cirq(self)->list:
         count = 0
@@ -36,7 +36,7 @@ class QcisToCirq():
                     decay21 = 1-np.exp(-tg/self.tDict['T1_21'][Qn])
                     dephase21 = 1-np.exp(-tg/self.tDict['Tp_21'][Qn])
                     pTh12 = tg/self.tDict['Th12']
-                    self.circ.append(NC.LeakThermalChannel(pTh12,qutrit))
+                    self.circ.append((NC.LeakThermalChannel(pTh12).on(qutrit)))
                     self.circ.append(NC.DecayAndDephaseChannel(decay10,dephase10,decay21,dephase21).on(qutrit))
                 if line_.group(1) == 'X2P':
                     self.match_sqg(line_,QG.X2p())
@@ -56,7 +56,7 @@ class QcisToCirq():
                     self.circ.append(cirq.measure(qutrit,key=Qn+'m'+f'{count}'))
                     if Qn not in self.qData:
                         self.circ.append(QG.Reset012().on(qutrit))
-                        self.circ.append(NC.Reset012Error(self.pDict['pReset01'][Qn],self.pDict['pReset02'][Qn],qutrit))
+                        self.circ.append(NC.Reset012Error(self.pDict['pReset01'][Qn],self.pDict['pReset02'][Qn]).on(qutrit))
                     count += 1
                 if line_.group(1) == 'GCZ':
                     n1 = line_.group(2)[1:3]
@@ -91,9 +91,9 @@ class QcisToCirq():
                             qutritH,qutritL = cirq.LineQid(int(n2),dimension=3),cirq.LineQid(int(n1),dimension=3)
                     self.circ.append(QG.CZ().on(qutritH,qutritL))
                     pTh12 = self.tDict['tCZ']/self.tDict['Th12']
-                    self.circ.append(NC.LeakThermalChannel(pTh12,qutritH))
-                    self.circ.append(NC.LeakThermalChannel(pTh12,qutritL))
-                    self.circ.append(NC.DoubleQutritNoiseChannel(self.pDict['pLeak'],self.pDict['pCZ'][(QnH,QnL)],qutritH,qutritL))
+                    self.circ.append(NC.LeakThermalChannel(pTh12).on(qutritH))
+                    self.circ.append(NC.LeakThermalChannel(pTh12).on(qutritL))
+                    self.circ.append(NC.DoubleQutritNoiseChannel(self.pDict['pLeak'],self.pDict['pCZ'][(QnH,QnL)]).on(qutritH,qutritL))
                 if line_.group(1) == 'GCT':
                     n1 = line_.group(2)[1:3]
                     n2 = line_.group(2)[3:5]
@@ -103,6 +103,6 @@ class QcisToCirq():
                     qutrit2 = cirq.LineQid(int(n2),dimension=3)
                     qutrit3 = cirq.LineQid(int(n3),dimension=3)
                     qutrit4 = cirq.LineQid(int(n4),dimension=3)
-                    self.circ.append(NC.DoubleQutritNoiseChannel(0,1,qutrit1,qutrit2))
-                    self.circ.append(NC.DoubleQutritNoiseChannel(0,1,qutrit3,qutrit4))
+                    self.circ.append(NC.DoubleQutritNoiseChannel(0,1).on(qutrit1,qutrit2))
+                    self.circ.append(NC.DoubleQutritNoiseChannel(0,1).on(qutrit3,qutrit4))
         return self.circ

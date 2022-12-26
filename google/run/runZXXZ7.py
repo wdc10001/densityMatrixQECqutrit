@@ -32,7 +32,7 @@ start = time.time()
 def runCirc(ncycle:int,shots:int)->list:
     # start = time.time()
     qcis = f'{init_Z}'+ncycle*f'{ECM(nD,tH,tCZ,tM,tR,pCT)}'+f'{EC(tH,tCZ,pCT)}{M_Dire}{M_ALL}'
-    circuitList = QcisToCirq(qcis,qData,pDict,tDict,fHL,ten=False,eleven=False,circ=[]).matchline()
+    circuitList = QcisToCirq(qcis,qData,pDict,tDict,fHL,ten=False,eleven=False,circ=[]).qcis_to_cirq()
     circuit = cirq.Circuit(circuitList)
     sim = cirq.Simulator()
     result = sim.simulate(circuit)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     pools = multiprocessing.Pool()
     for ncycle in range(10,11):
         result = pools.map(partial(runCirc,ncycle),range(shots))
-        np.savetxt(f'google/result/resultZXXZ7/qubit_initZ_ncycle{ncycle+1}shots{shots}tH400pM0.01pCZ0.01pxyz0.01.txt',result,fmt='%d',delimiter='')
+        np.savetxt(f'google/result/resultZXXZ7/qubit_initZ_ncycle{ncycle+1}shots{shots}tH400pM0.03pCZ0.02pxyz0.01.txt',result,fmt='%d',delimiter='')
     pools.close()
     pools.join()
 
