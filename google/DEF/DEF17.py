@@ -3,8 +3,8 @@ sys.path.append(os.path.abspath(''))
 import plotly.graph_objects as go
 import numpy as np
 
-title = 'qubit_initZ_ncycle8shots10000tH400pM0.03pCZ0.02pxyz0.01'
-path = f'google/result/resultCSS17/{title}.txt'
+title = 'qubit_ncycle8shots10000tH400pM0.03pCZ0.02pxyz0.01'
+path = f'google/result/result10/{title}.txt'
 CycleNum = 8
 ExperimentNum = 10000
 
