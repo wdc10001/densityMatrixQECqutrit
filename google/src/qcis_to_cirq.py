@@ -19,7 +19,7 @@ class QcisToCirq():
         self.circ.append(NC.LeakThermalChannel(pTh12,qutrit))
         self.circ.append(NC.SingleQutritNoiseChannel(self.pDict['px'][Qn],self.pDict['py'][Qn],self.pDict['pz'][Qn],qutrit))
 
-    def matchline(self)->list:
+    def qcis_to_cirq(self)->list:
         count = 0
         for line in self.qcis.split('\n'):
             line_ = re.match(r'([a-zA-Z0-9]*) ([a-zA-Z0-9]*) ?(.*)', line)
