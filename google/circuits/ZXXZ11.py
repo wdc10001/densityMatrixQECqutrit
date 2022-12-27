@@ -1,6 +1,7 @@
-from physicGate import *
-from config import *
-from numpy import random
+import sys,os
+sys.path.append(os.path.abspath(''))
+from google.src.physic_gate import *
+from google.src.config import *
 
 crosstalk1 = lambda pCT:f'''
 GCT G03020504
