@@ -9,7 +9,7 @@ from functools import partial
 import numpy as np
 from google.src.qubit_para import *
 
-nD = 3
+nD = 0
 M_Dire = MZ
 fHL = fWest
 qData = Q_Data
