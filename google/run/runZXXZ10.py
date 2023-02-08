@@ -32,7 +32,7 @@ def run_circ(ncycle:int,shots:int):
     return mList
 
 if __name__ == '__main__':
-    # run_circ(8,0)
+    # run_circ(1,0)
     shots = 10000
     pools = multiprocessing.Pool()
     for ncycle in range(7,8):
